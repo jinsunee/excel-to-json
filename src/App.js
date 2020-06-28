@@ -54,7 +54,7 @@ const SubmitButtonBorder = styled.button`
 
 const ResultWrapper = styled.div`
   width: 100%;
-  border: 1px solid #eaeaea;
+  border-top: 1px solid #eaeaea;
 `;
 
 function App() {
@@ -63,8 +63,8 @@ function App() {
 
   // value로 json 데이터를 만들어낸다.
   const convertToJSON = () => {
-    // value가 공백일 때
-    if (value === "") {
+    // value === empty string
+    if (!value) {
       alert("No empty string");
       return;
     }
@@ -93,8 +93,8 @@ function App() {
   };
 
   const convertToJSObject = () => {
-    // value가 공백일 때
-    if (value === "") {
+    // value === empty string
+    if (!value) {
       alert("No empty string");
       return;
     }
@@ -124,6 +124,10 @@ function App() {
     setResult(resultStr);
   };
 
+  const clear = () => {
+    setValue("");
+  };
+
   return (
     <Container>
       <h1>
@@ -145,7 +149,7 @@ function App() {
         <SubmitButtonFilled onClick={convertToJSObject}>
           Convert JS Object
         </SubmitButtonFilled>
-        <SubmitButtonBorder>Clear</SubmitButtonBorder>
+        <SubmitButtonBorder onClick={clear}>Clear</SubmitButtonBorder>
       </ButtonWrapper>
       <h2>Result : </h2>
       <ResultWrapper>{result}</ResultWrapper>
