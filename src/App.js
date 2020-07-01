@@ -79,10 +79,18 @@ function App() {
       resultStr = resultStr.concat("{");
       const values = newString[i].split(/\t/g);
       for (let j = 0; j < fields.length; j++) {
-        if (j === fields.length - 1) {
-          resultStr = resultStr.concat(`"${fields[j]}" : "${values[j]}"`);
+        if (fields[j] === "id" || fields[j] === "itemCategory") {
+          if (j === fields.length - 1) {
+            resultStr = resultStr.concat(`"${fields[j]}" : ${values[j]}`);
+          } else {
+            resultStr = resultStr.concat(`"${fields[j]}" : ${values[j]},`);
+          }
         } else {
-          resultStr = resultStr.concat(`"${fields[j]}" : "${values[j]}",`);
+          if (j === fields.length - 1) {
+            resultStr = resultStr.concat(`"${fields[j]}" : "${values[j]}"`);
+          } else {
+            resultStr = resultStr.concat(`"${fields[j]}" : "${values[j]}",`);
+          }
         }
       }
       resultStr = resultStr.concat("}");
@@ -111,10 +119,18 @@ function App() {
       console.log(newString[i]);
       for (let j = 0; j < fields.length; j++) {
         console.log(fields[j], values[j]);
-        if (j === fields.length - 1) {
-          resultStr = resultStr.concat(`${fields[j]} : "${values[j]}"`);
+        if (fields[j] === "id" || fields[j] === "itemCategory") {
+          if (j === fields.length - 1) {
+            resultStr = resultStr.concat(`${fields[j]} : ${values[j]}`);
+          } else {
+            resultStr = resultStr.concat(`${fields[j]} : ${values[j]},`);
+          }
         } else {
-          resultStr = resultStr.concat(`${fields[j]} : "${values[j]}",`);
+          if (j === fields.length - 1) {
+            resultStr = resultStr.concat(`${fields[j]} : "${values[j]}"`);
+          } else {
+            resultStr = resultStr.concat(`${fields[j]} : "${values[j]}",`);
+          }
         }
       }
       resultStr = resultStr.concat("},");
