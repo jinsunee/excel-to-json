@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const Container = styled.div`
   width: 100%;
-  height: 100vh;
+  /* height: 100vh; */
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -38,9 +38,9 @@ const SubmitButtonFilled = styled.button`
 `;
 
 const SubmitButtonBorder = styled.button`
-  border: 2px solid #b5b2ff; /* Green */
+  border: 2px solid #ffb2f5; /* Green */
   background-color: transparent; /* Green */
-  color: #b5b2ff;
+  color: #ffb2f5;
   font-weight: bold;
   padding: 15px 32px;
   text-align: center;
@@ -60,6 +60,7 @@ const ResultWrapper = styled.div`
 function App() {
   const [value, setValue] = useState();
   const [result, setResult] = useState();
+  const [random, setRandom] = useState(false);
 
   // value로 json 데이터를 만들어낸다.
   const convertToJSON = () => {
@@ -107,8 +108,14 @@ function App() {
       return;
     }
 
-    const newString = value.split("\n");
-    const field = newString[0];
+    const tmp = value.split("\n");
+
+    const newString = getRandomizedArray(tmp.slice(1));
+
+    console.log(newString);
+
+    const field = tmp[0];
+    console.log(field);
 
     const fields = field.split(/\t/g);
 
@@ -118,7 +125,8 @@ function App() {
       const values = newString[i].split(/\t/g);
       console.log(newString[i]);
       for (let j = 0; j < fields.length; j++) {
-        console.log(fields[j], values[j]);
+        // console.log(fields[j], values[j]);
+        // if (fields[j] === "id" || fields[j] === "itemCategory") {
         if (fields[j] === "id" || fields[j] === "itemCategory") {
           if (j === fields.length - 1) {
             resultStr = resultStr.concat(`${fields[j]} : ${values[j]}`);
@@ -140,6 +148,22 @@ function App() {
     setResult(resultStr);
   };
 
+  const getRandomizedArray = (strArr) => {
+    const strLength = strArr.length;
+    const newArray = new Array(strLength);
+
+    let i = 0;
+    while (i < strLength) {
+      const randomIndexValue = parseInt(Math.random() * strLength);
+
+      if (!newArray[randomIndexValue]) {
+        newArray[randomIndexValue] = strArr[i++];
+      }
+    }
+
+    return newArray;
+  };
+
   const clear = () => {
     setValue("");
   };
@@ -153,17 +177,23 @@ function App() {
       <TextArea
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        placeholder="데이터를 복사해서 붙여넣으세요!"
+        placeholder="Copy excel data and paste in this!"
       />
       <ButtonWrapper>
         <SubmitButtonFilled
-          style={{ backgroundColor: "#D1B2FF" }}
+          style={{ backgroundColor: "#B2CCFF" }}
           onClick={convertToJSON}
         >
           Convert JSON
         </SubmitButtonFilled>
         <SubmitButtonFilled onClick={convertToJSObject}>
           Convert JS Object
+        </SubmitButtonFilled>
+        <SubmitButtonFilled
+          style={{ backgroundColor: "#D1B2FF" }}
+          onClick={() => setRandom(!random)}
+        >
+          {random ? "To Ordered" : "To Randomize"}
         </SubmitButtonFilled>
         <SubmitButtonBorder onClick={clear}>Clear</SubmitButtonBorder>
       </ButtonWrapper>
